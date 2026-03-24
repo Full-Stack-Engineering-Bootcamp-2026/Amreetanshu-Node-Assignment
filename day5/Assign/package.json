@@ -1,0 +1,16 @@
+{
+  "name": "assign",
+  "version": "1.0.0",
+  "description": "assign day5",
+  "main": "App.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon App.js"
+    
+  },
+  "author": "amreet",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}

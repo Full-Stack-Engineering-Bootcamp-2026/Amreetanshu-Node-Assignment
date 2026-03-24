@@ -22,10 +22,10 @@ const server = http.createServer(function (req,res) {
     res.write('<h1> Hello my name is '+name+'and the time is '+date+'</h1>');
     res.write('</body>');
     res.write('</html>');
-    res.end();
+    res.end(); //ends the response 
 
 
-    process.exit();
+    process.exit();// ends the server
     
 });
 

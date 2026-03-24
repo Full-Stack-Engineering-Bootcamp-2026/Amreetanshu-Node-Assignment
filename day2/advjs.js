@@ -43,6 +43,9 @@ console.log(first);
 console.log(third);
 
 //Promise 
+//resolve = .then
+//reject = .catch
+//pending = 
 function delay(ms){
     return new Promise((resolve)=>{
         setTimeout(resolve,ms);
