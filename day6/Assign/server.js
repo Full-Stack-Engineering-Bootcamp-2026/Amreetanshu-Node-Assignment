@@ -5,7 +5,17 @@ const parser = require('body-parser');
 
 const app =express();
 
+app.use('/', (req,res,next)=>{
+
+    console.log("goo");
+
+    res.send( '<h1> Hii Welcome</h1>')
+
+});
+
 app.use('/about',(req,res,next)=>{
+
+    console.log("hii in 1")
 
     res.send(`
     <!DOCTYPE html>
@@ -40,7 +50,7 @@ app.use('/contact',(req,res,next)=>{
 })
 
 app.use('/skills',(req,res,next)=>{
-
+    console.log('hey');
     res.send(`
     <!DOCTYPE html>
     <html>
@@ -61,11 +71,7 @@ app.use('/skills',(req,res,next)=>{
 
 })
 
-app.use('/', (req,res,next)=>{
 
-    res.send( '<h1> Hii Welcome</h1>')
-
-});
 
 
 app.listen(3000);
