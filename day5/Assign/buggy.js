@@ -1,2 +1,0 @@
-//the bug was it was running till the length of the array and thus printing NAN as a unknown value was getting passed 
-// configured the debugger in the add config from top and set it to nodemon and than sarted debugging 

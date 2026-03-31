@@ -30,6 +30,13 @@ class Product {
       cb(JSON.parse(fileContent));
     });
   }
+
+  static findById(id, cb) {
+    this.fetchAll((products) => {
+      const product = products.find((p) => p.id === id);
+      cb(product); 
+    });
+  }
 }
 
 module.exports = Product;
