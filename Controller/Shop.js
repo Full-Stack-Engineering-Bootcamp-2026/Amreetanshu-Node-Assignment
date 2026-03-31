@@ -13,7 +13,8 @@ exports.getProduct = (req, res, next) => {
 
   Product.findById(prodId, (product) => {
     if (!product) {
-      return res.redirect("/"); // ✅ handle safely
+      return res.redirect("/");
+      
     }
 
     res.render("shop/product-detail", {
