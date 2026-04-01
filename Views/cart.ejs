@@ -1,0 +1,11 @@
+<h1>Your Cart</h1>
+
+<ul>
+  <% for(let p of products) { %>
+    <li>
+      <%= p.productData.title %> - Qty: <%= p.qty %>
+    </li>
+  <% } %>
+</ul>
+
+<h2>Total: <%= totalPrice %></h2>
