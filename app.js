@@ -2,6 +2,8 @@ const path = require('path');
 
 const express = require('express');
 const bodyParser = require('body-parser');
+const mongoConnect = require("./util/database").mongoConnect;
+const getdb = require("./util/database");
 
 const errorController = require('./controllers/error');
 // const sequelize = require('./util/database');
@@ -17,8 +19,8 @@ const app = express();
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 
-const adminRoutes = require('./routes/admin');
-const shopRoutes = require('./routes/shop');
+// const adminRoutes = require('./routes/admin');
+// const shopRoutes = require('./routes/shop');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
@@ -30,10 +32,11 @@ app.use((req, res, next) => {
   //     next();
   //   })
   //   .catch(err => console.log(err));
+  next();
 });
 
-app.use('/admin', adminRoutes);
-app.use(shopRoutes);
+//app.use('/admin', adminRoutes);
+// app.use(shopRoutes);
 
 app.use(errorController.get404);
 
@@ -70,3 +73,10 @@ app.use(errorController.get404);
 //   .catch(err => {
 //     console.log(err);
 //   });
+
+// mongoConnect(()=>{
+//   app.listen(3000);
+// });
+getdb.mongoConnect(() => {
+  app.listen(3000);
+});
