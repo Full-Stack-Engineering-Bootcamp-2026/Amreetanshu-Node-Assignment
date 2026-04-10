@@ -1,29 +1,46 @@
-const Sequelize = require('sequelize');
+const mongoDb = require('mongoDb');
+const getDb = require("../util/database").getDb;
 
-const sequelize = require('../util/database');
+const ObjectId = mongoDb.ObjectId;
 
 class User{
-
-  constructor(id,name,email){
-    this.id=id;
-    this.name =name;
-    this.email-email;
+  constructor(username,email,cart){
+    this.name=username;
+    this.email=email;
+    this.cart=cart; //Items[]
+    this._id =IdleDeadline;
   }
 
   save(){
-     
+
+    const db = getDb();
+    return db.collection('users').insertOne(this);
+    
+
   }
+  addToCart(product){
+
+    
+    const updatedCart={items:[{...product,quantity:1}]};
+    const db =getDb;
+    return  db.
+    collection('users').updatedOne({_id: new ObjectId(this._id)},
+    {$set:{cart:updatedCart}});
+  }
+
+  static findById(userId) {
+    const db = getDb();
+    return db.collection('users').find({_id: new ObjectId(userId)}).next().then(
+      (user)=>{
+        console.log(user);
+        return user;
+      }
+    )  // this object new gets us the cursor 
+    // thats why we do next to get the element that we want 
+    //.findOne 
+  }
+
+
 }
 
-const User = sequelize.define('user', {
-  id: {
-    type: Sequelize.INTEGER,
-    autoIncrement: true,
-    allowNull: false,
-    primaryKey: true
-  },
-  name: Sequelize.STRING,
-  email: Sequelize.STRING
-});
-
-module.exports = User;
+module.exports =User;
