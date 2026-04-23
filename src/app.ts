@@ -4,6 +4,11 @@ dotenv.config();
 import express from "express";
 import emailRoutes from "./routes/email.routes";
 import fileRoutes from "./routes/file.routes";
+import UserPageRoutes from "./routes/UserPage.routes"
+import { connectDB } from "./utils/Database";
+
+connectDB();
+
 
 const app = express();
 
@@ -17,6 +22,7 @@ console.log("SENDER EMAIL:", process.env.SENDER_EMAIL);
 
 app.use("/", emailRoutes);
 app.use("/",fileRoutes);
+app.use("/",UserPageRoutes)
 
 
 app.get("/", (req, res) => {
