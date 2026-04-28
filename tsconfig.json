@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    /* Language and Environment */
+    "target": "ES2023",
+    /* Modules */
+    "module": "Node16",
+    "resolveJsonModule": true,
+    "typeRoots": ["./node_modules/@types"],
+    /* Emit */
+    "rootDir": "./src",
+    "outDir": "./dist",
+    /* Interop Constraints */
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    /* Type Checking */
+    "strict": true,
+    "strictPropertyInitialization": false,
+    "skipLibCheck": true,
+    /* Decorators (TypeDI / TypeORM) */
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"],
+  "ts-node": {
+    "transpileOnly": false,
+    "files": true
+  }
+}
