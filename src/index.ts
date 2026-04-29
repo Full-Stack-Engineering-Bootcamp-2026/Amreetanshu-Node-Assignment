@@ -3,11 +3,12 @@ import express, { Express, Router } from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import { Container } from "typedi";
+import { AppDataSource } from "./db/data-source";
 
 dotenv.config();
 
-import { AuthRoutes } from "./domains/auth/auth.route";
-import { AuthMiddleware } from "./domains/auth/auth.middleware";
+import { AuthRoutes } from "./domains/auth/routes/auth.routes";
+import { AuthenticationMiddleware } from "./domains/auth/middleware/authenticate.mid";
 
 class Application {
   public app: Express;
@@ -19,9 +20,18 @@ class Application {
 
     this.initializeMiddleware();
     this.initializeRoutes();
+    this.initializeDatabase();
   }
 
- 
+  private async initializeDatabase(): Promise<void> {
+    try {
+      await AppDataSource.initialize();
+      console.log("✅ Database connected");
+    } catch (error) {
+      console.error("❌ Database connection failed", error);
+    }
+  }
+
   private initializeMiddleware(): void {
     const allowedOrigins = (
       process.env.ALLOWED_ORIGINS || "http://localhost:5173"
@@ -37,49 +47,42 @@ class Application {
           }
         },
         credentials: true,
-      })
+      }),
     );
 
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
   }
 
-  
   private initializeRoutes(): void {
     const v1Router = Router();
 
-    
+    // 🔓 Public Auth Routes
     const authRoutes = Container.get(AuthRoutes);
     v1Router.use("/auth", authRoutes.router);
 
-    
-    const authMiddleware = Container.get(AuthMiddleware);
+    // 🔒 Protected Routes (TEST)
+    const authMiddleware = Container.get(AuthenticationMiddleware);
 
-    v1Router.use("/posts", authMiddleware.use);
-
-    v1Router.get("/posts", (req, res) => {
+    v1Router.get("/posts", authMiddleware.use, (req, res) => {
       res.json({
         message: "Protected route accessed",
-        user: (req as any).user,
+        user: (req as any).user, 
       });
     });
 
     this.app.use("/api/v1", v1Router);
   }
 
-
   public start(): void {
     this.app.listen(this.port, () => {
       console.log(`🚀 Server running on port ${this.port}`);
-      console.log(
-        `Auth API: http://localhost:${this.port}/api/v1/auth/login`
-      );
+      console.log(`Auth API: http://localhost:${this.port}/api/v1/auth/login`);
     });
 
     this.setupGracefulShutdown();
   }
 
- 
   private setupGracefulShutdown(): void {
     const shutdown = (signal: string): void => {
       console.log(`${signal} received. Shutting down...`);
@@ -90,7 +93,6 @@ class Application {
     process.on("SIGINT", () => shutdown("SIGINT"));
   }
 }
-
 
 const application = new Application();
 application.start();

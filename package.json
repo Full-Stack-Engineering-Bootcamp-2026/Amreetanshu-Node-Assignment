@@ -36,6 +36,7 @@
     "express": "^4.22.1",
     "joi": "^18.0.2",
     "jsonwebtoken": "^9.0.3",
+    "mysql2": "^3.22.3",
     "pg": "^8.20.0",
     "reflect-metadata": "^0.2.2",
     "swagger-autogen": "^2.23.7",
